@@ -1,0 +1,29 @@
+(version 0.1)
+
+
+(rule "L_mutual_clearance"
+    (condition "A.NetClass == 'class_L' && B.NetClass != A.NetClass")
+    (constraint clearance (min 3.0mm)))
+
+(rule "L_self_clearance"
+    (condition "A.NetClass == 'class_L' && B.NetClass == A.NetClass")
+    (constraint clearance (min 3.0mm)))
+
+
+(rule "N_mutual_clearance"
+    (condition "A.NetClass == 'class_N' && B.NetClass != A.NetClass")
+    (constraint clearance (min 3.0mm)))
+
+(rule "N_self_clearance"
+    (condition "A.NetClass == 'class_N' && B.NetClass == A.NetClass")
+    (constraint clearance (min 3.0mm)))
+
+
+(rule "PE_mutual_clearance"
+    (condition "A.NetClass == 'class_PE' && B.NetClass != A.NetClass")
+    (constraint clearance (min 4.0mm)))
+
+(rule "PE_edge_clearance"
+    (condition "A.NetClass == 'class_PE' && B.Layer == 'Edge.Cuts'")
+    (constraint clearance (min 0.5mm)))
+

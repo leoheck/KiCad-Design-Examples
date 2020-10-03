@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name "sparkgaps")(type "KiCad")(uri "${KIPRJMOD}/../libs/sparkgaps.pretty")(options "")(descr ""))
+  (lib (name "WE_ExB")(type "KiCad")(uri "${KIPRJMOD}/../libs/WE_ExB.pretty")(options "")(descr ""))
+)

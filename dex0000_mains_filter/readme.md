@@ -45,13 +45,13 @@ The distinction between same-class nets and other-class net clearances is made b
 
 Finally, order-of-evaluation need to be kept in mind. In the example below, clearance rules r1-r6 are thought to be written in ascending order, which leads to a chevron stack pattern in the associated clearance matrix. r1, r3, r5 are mutual clearance rules, r2, r4, r6 are same-class clearance rules (later: *_self_clearance):
 
-	step 1:				step 2:				step 3:
+	step 1:					step 2:					step 3:
 		X	Y	Z			X	Y	Z			X	Y	Z
 	X		r1	r1		X	r2	r1	r1		X	r2	r3	r1
 	Y	r1				Y	r1				Y	r3		r3	
 	Z	r1				Z	r1				Z	r1	r3	
 
-	step 4:				step 5:				step 6:
+	step 4:					step 5:					step 6:
 		X	Y	Z			X	Y	Z			X	Y	Z
 	X	r2	r3	r1		X	r2	r3	r5		X	r2	r3	r5
 	Y	r3	r4	r3		Y	r3	r4	r5		Y	r3	r4	r5	
@@ -71,10 +71,10 @@ Please see the project files for the full list of rules. An excerpt is given bel
     #
     # Clearance Matrix equivalent:
     #
-    #				class_L		class_N		class_PE
+    #			class_L		class_N		class_PE
     #	class_L		0.75mm		3.0mm		4.5mm
-    #	class_N					0.75mm		4.5mm
-    #	class_PE							0.2mm*
+    #	class_N				0.75mm		4.5mm
+    #	class_PE					0.2mm*
     #
     # * Note there is only PE_mutual_clearance for clearance to other nets, so class_PE self-clearance
     #   defaults to 0.2mm from Project > Net Classes.

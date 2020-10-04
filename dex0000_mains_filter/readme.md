@@ -1,6 +1,6 @@
 # DEX_MRHW0000 - basic line filter
 
-A simple line filter circuit implements individual clearances for phase-to-neutral, mains-to-earth, and earth to PCB edge, as well as small self-clearance for nets that share the same DC potential, but may be split to account for AC behavior, in this case of a common-mode choke.
+A simple line filter circuit implements individual clearances for phase-to-neutral, mains-to-earth, and earth to PCB edge clearances, as well as small self-clearances for nets that share the same DC potential, but may be split to account for AC behavior. The latter is applied hier to the case of a common-mode choke.
 
 ![board and layout view](img/DEX_MRHW0000A.png)
 
@@ -30,9 +30,9 @@ An equivalent rule for class_x with 0.2mm clearance has the form
 	    (condition "A.NetClass == 'class_X'")
 	    (constraint clearance (min 0.2mm)))
 
-Such a rule written in Design Rules > Rules supersedes the implicit definition through the Net Classes table, but is functionally equivalent until the boolean expression is extended. The Net Classes table values cover all cases not otherwise described in the design rules script.
+Such a rule written in Design Rules > Rules supersedes the implicit definition through the Net Classes table, but is functionally equivalent until the boolean expression it contains is extended. Meanwhile, the Net Classes table values cover all cases not otherwise described in the design rules script.
 
-The distinction between same-class nets and other-class net clearances is made by extending the boolean expression and adding a complementary rule. A and B are the corresponding board items between which the clearance resolution is determined. 
+The distinction between same-class net and other-class net clearances is made by forming two complementary rules. A and B are the corresponding board items between which the clearance resolution is determined. 
 
 	(rule "N_mutual_clearance"
 	    (condition "A.NetClass == 'class_N' && B.NetClass != A.NetClass")
@@ -42,7 +42,7 @@ The distinction between same-class nets and other-class net clearances is made b
 	    (condition "A.NetClass == 'class_N' && B.NetClass == A.NetClass")
 	    (constraint clearance (min 0.75mm)))
 
-Finally, order-of-evaluation need to be kept in mind. In the example below, clearance rules r1-r6 are thought to be written in ascending order, which leads to a chevron stack pattern in the associated clearance matrix. r1, r3, r5 are mutual clearance rules, r2, r4, r6 are same-class clearance rules (later: *_self_clearance):
+Finally, order-of-evaluation needs to be kept in mind. In the example below, clearance rules named r1-r6 for short are thought to be written in consecutive order, which leads to a chevron stack pattern in the associated clearance matrix. r1, r3, r5 are mutual clearance rules, r2, r4, r6 are same-class clearance rules:
 
 	step 1:					step 2:					step 3:
 		X	Y	Z			X	Y	Z			X	Y	Z
@@ -64,7 +64,11 @@ In its most general form, clearance matrix elements can also be specified indivi
 	    (condition "A.NetClass == '<class_i>' && A.NetClass == '<class_j>'")
 	    (constraint clearance (min 0.2mm)))
 
-where <class_i>, <class_j> are placeholders.
+where <class_i>, <class_j> are placeholders. 
+
+### Rules validation
+
+Design Rules can also describe constraints with respect to net classes not (yet) contained in the design. This may at a later stage be pointed out in the form of syntax check info messages. Always validate the correctness of the resulting clearances, for example by selecting two layout items and using Inspect > Clearance Resolution to see which rule and what clearance value was found to apply.
 
 ### Clearance Rules For This Design
 

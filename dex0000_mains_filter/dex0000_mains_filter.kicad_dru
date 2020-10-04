@@ -1,5 +1,38 @@
 (version 0.1)
 
+# General Remarks
+#
+# The clearance rules below are used during Push&Shove routing, zone filling and DRC.
+# Rules are written starting with general cases and refined by consecutive rule statements.
+# Currently, rules are consequently evaluated last-to-first with implied hierarchy.
+# No rule arbitration is performed in case of conflicting statements (e.g. rules calling for
+# different minimum values do not resolve to the larger of the two being selected, but resolve
+# to the rule specified last).
+# Select two layout elements and click Inspect > Clearance Resolution to observe the validity 
+# of clearance rules.
+# The rules editor supports auto-completion, and some Syntax help (top right corner) is provided.
+# Use the bug icon to test for syntax error. Reported errors can be clicked to find the  
+# corresponding position in the script.
+#
+# For further questions please also see https://forum.kicad.info/.
+
+
+# Project Rules
+#
+# Phase is segmented to insert a fuse holder and one winding of a common-mode filter choke.
+# A spark gap is inserted across the filter winding to prevent insulation breakdown in 
+# the event of a transient overvoltage condition. The same concept is applied to neutral.
+#
+# Clearance Matrix equivalent:
+#
+#				class_L		class_N		class_PE
+#	class_L		0.75mm		3.0mm		4.5mm
+#	class_N					0.75mm		4.5mm
+#	class_PE							0.2mm*
+#
+# * Note there is only PE_mutual_clearance for clearance to other nets, so class_PE self-clearance
+#   defaults to 0.2mm from Project > Net Classes.
+
 
 (rule "L_mutual_clearance"
     (condition "A.NetClass == 'class_L' && B.NetClass != A.NetClass")
@@ -7,7 +40,7 @@
 
 (rule "L_self_clearance"
     (condition "A.NetClass == 'class_L' && B.NetClass == A.NetClass")
-    (constraint clearance (min 3.0mm)))
+    (constraint clearance (min 0.75mm)))
 
 
 (rule "N_mutual_clearance"
@@ -16,12 +49,17 @@
 
 (rule "N_self_clearance"
     (condition "A.NetClass == 'class_N' && B.NetClass == A.NetClass")
-    (constraint clearance (min 3.0mm)))
+    (constraint clearance (min 0.75mm)))
 
 
 (rule "PE_mutual_clearance"
     (condition "A.NetClass == 'class_PE' && B.NetClass != A.NetClass")
-    (constraint clearance (min 4.0mm)))
+    (constraint clearance (min 4.5mm)))
+
+
+# PE_edge_clearance describes an exception for all nets in class_PE:
+# the clearance on all layers with respect to Edge.Cuts elements is 
+# set to 0.5mm.
 
 (rule "PE_edge_clearance"
     (condition "A.NetClass == 'class_PE' && B.Layer == 'Edge.Cuts'")

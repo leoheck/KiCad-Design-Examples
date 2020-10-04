@@ -97,4 +97,4 @@ All members of a net class can be highlighted by using the right-click option "H
 
 
 ---
-This project is art of a set of design examples. See [https://github.com/MisterHW/KiCad-Design-Examples/](https://github.com/MisterHW/KiCad-Design-Examples/) for more.
+This project is part of a set of design examples. See [https://github.com/MisterHW/KiCad-Design-Examples/](https://github.com/MisterHW/KiCad-Design-Examples/) for more.

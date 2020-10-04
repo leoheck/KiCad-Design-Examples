@@ -32,7 +32,6 @@ An equivalent rule for class_x with 0.2mm clearance has the form
 
 Such a rule written in Design Rules > Rules supersedes the implicit definition through the Net Classes table, but is functionally equivalent until the boolean expression is extended. The Net Classes table values cover all cases not otherwise described in the design rules script.
 
-
 The distinction between same-class nets and other-class net clearances is made by extending the boolean expression and adding a complementary rule. A and B are the corresponding board items between which the clearance resolution is determined. 
 
 	(rule "N_mutual_clearance"
@@ -58,6 +57,14 @@ Finally, order-of-evaluation need to be kept in mind. In the example below, clea
 	Z	r1	r3			Z	r5	r5			Z	r5	r5	r6
 
 The roles of A and B in the rule description can be swapped, which makes the clearance matrix symmetric, so it's usually only given in triangle form. 
+
+In its most general form, clearance matrix elements can also be specified individually by writing out all (N²+N)/2 combinations of N net classes occuring in the design, including the diagonal ones:
+
+	(rule "clearance_<class_i>_<class_j>"
+	    (condition "A.NetClass == '<class_i>' && A.NetClass == '<class_j>'")
+	    (constraint clearance (min 0.2mm)))
+
+where <class_i>, <class_j> are placeholders.
 
 ### Clearance Rules For This Design
 
